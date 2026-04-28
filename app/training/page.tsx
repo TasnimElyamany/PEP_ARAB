@@ -125,32 +125,32 @@ const programs = [
     ],
     partners: ["Mansoura University"],
   },
-  {
-    id: 5,
-    icon: GraduationCap,
-    title: "Marine Control Systems",
-    level: "Advanced",
-    duration: "20 Hours",
-    mode: "In-Person",
-    color: "from-[#0891b2] to-[#00b4d8]",
-    description:
-      "Specialized training on Bureau Veritas-certified marine alarm and monitoring systems, SOLAS regulations, and integrated bridge automation.",
-    modules: [
-      "Marine Automation & SOLAS Requirements",
-      "Bureau Veritas Type Approval Process",
-      "Marine Alarm & Monitoring System Design",
-      "Engine Room Monitoring",
-      "Bilge & Fire Detection at Sea",
-      "Integrated Bridge Systems",
-    ],
-    outcomes: [
-      "Understand SOLAS marine automation requirements",
-      "Configure marine alarm and monitoring panels",
-      "Commission engine room monitoring systems",
-      "Navigate Bureau Veritas approval documentation",
-    ],
-    partners: ["Delta University"],
-  },
+  // {
+  //   id: 5,
+  //   icon: GraduationCap,
+  //   title: "Marine Control Systems",
+  //   level: "Advanced",
+  //   duration: "20 Hours",
+  //   mode: "In-Person",
+  //   color: "from-[#0891b2] to-[#00b4d8]",
+  //   description:
+  //     "Specialized training on Bureau Veritas-certified marine alarm and monitoring systems, SOLAS regulations, and integrated bridge automation.",
+  //   modules: [
+  //     "Marine Automation & SOLAS Requirements",
+  //     "Bureau Veritas Type Approval Process",
+  //     "Marine Alarm & Monitoring System Design",
+  //     "Engine Room Monitoring",
+  //     "Bilge & Fire Detection at Sea",
+  //     "Integrated Bridge Systems",
+  //   ],
+  //   outcomes: [
+  //     "Understand SOLAS marine automation requirements",
+  //     "Configure marine alarm and monitoring panels",
+  //     "Commission engine room monitoring systems",
+  //     "Navigate Bureau Veritas approval documentation",
+  //   ],
+  //   partners: ["Delta University"],
+  // },
 ];
 
 const stats = [
