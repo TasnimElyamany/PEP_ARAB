@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Cpu,
   BarChart3,
@@ -13,6 +13,7 @@ import {
   ArrowRight,
   CheckCircle,
   Filter,
+  MapPin,
 } from "lucide-react";
 
 const categories = ["All", "PLC & Control", "SCADA & HMI", "Safety", "Computers", "Marine", "Power"];
@@ -210,8 +211,32 @@ const products = [
   },
 ];
 
+const techPartners = [
+  { name: "Kontron", country: "Germany", flag: "🇩🇪", role: "Industrial Computing & SBCs", accent: "from-[#1565c0]/20 to-[#1565c0]/5", border: "border-[#1565c0]/30", badge: "Hardware" },
+  { name: "Wilke Technology", country: "Germany", flag: "🇩🇪", role: "Embedded BASIC Controllers", accent: "from-[#1565c0]/15 to-[#00b4d8]/5", border: "border-[#00b4d8]/20", badge: "Hardware" },
+  { name: "Sielcosistemi", country: "Italy", flag: "🇮🇹", role: "Winlog SCADA Platform", accent: "from-[#7c3aed]/20 to-[#7c3aed]/5", border: "border-[#7c3aed]/30", badge: "Software" },
+  { name: "Diamondsystems", country: "USA", flag: "🇺🇸", role: "Industrial Single-Board Computers", accent: "from-[#059669]/20 to-[#059669]/5", border: "border-[#059669]/30", badge: "Hardware" },
+  { name: "Fastwel", country: "Global", flag: "🌐", role: "Rugged Embedded Computing", accent: "from-[#00b4d8]/20 to-[#00b4d8]/5", border: "border-[#00b4d8]/30", badge: "Hardware" },
+  { name: "Bureau Veritas", country: "Global", flag: "🌐", role: "Marine Certification Authority", accent: "from-[#d97706]/20 to-[#d97706]/5", border: "border-[#d97706]/30", badge: "Certification" },
+];
+
+const badgeColors: Record<string, string> = {
+  Hardware: "bg-[#1565c0]/20 border-[#1565c0]/30 text-[#00b4d8]",
+  Software: "bg-[#7c3aed]/20 border-[#7c3aed]/30 text-[#9d5ff0]",
+  Certification: "bg-[#d97706]/20 border-[#d97706]/30 text-[#fbbf24]",
+};
+
 export default function MarketplacePage() {
   const [activeCategory, setActiveCategory] = useState("All");
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }),
+      { threshold: 0, rootMargin: "0px 0px -20px 0px" }
+    );
+    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   const filtered = products.filter(
     (p) => activeCategory === "All" || p.category === activeCategory
@@ -257,6 +282,13 @@ export default function MarketplacePage() {
             ))}
           </div>
         </div>
+
+        {/* Wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-12 overflow-hidden">
+          <svg viewBox="0 0 1200 48" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,24 C200,48 400,0 600,24 C800,48 1000,0 1200,24 L1200,48 L0,48 Z" fill="white" />
+          </svg>
+        </div>
       </section>
 
       {/* Filter */}
@@ -280,17 +312,18 @@ export default function MarketplacePage() {
       </section>
 
       {/* Products Grid */}
-      <section className="py-16 bg-[#f8faff]">
+      <section className="relative py-16 bg-[#f8faff]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filtered.map((product) => {
+            {filtered.map((product, i) => {
               const Icon = product.icon;
               return (
                 <div
                   key={product.id}
+                  data-reveal
+                  data-delay={String((i % 3) + 1)}
                   className="bg-white rounded-2xl border border-[#e8edf5] overflow-hidden hover:shadow-xl hover:shadow-[#1565c0]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
                 >
-                  {/* Card header */}
                   <div className={`bg-gradient-to-br ${product.color} p-8 relative overflow-hidden`}>
                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
                     <div className="flex items-start justify-between relative z-10">
@@ -305,13 +338,10 @@ export default function MarketplacePage() {
                     <p className="text-white/60 text-xs mt-1 relative z-10">{product.category}</p>
                   </div>
 
-                  {/* Card body */}
                   <div className="p-6 flex-1 flex flex-col">
                     <p className="text-[#0a1628]/60 text-sm leading-relaxed mb-5">
                       {product.description}
                     </p>
-
-                    {/* Features */}
                     <ul className="space-y-2 mb-5">
                       {product.features.slice(0, 3).map((f) => (
                         <li key={f} className="flex items-start gap-2 text-[#0a1628]/70 text-xs">
@@ -320,8 +350,6 @@ export default function MarketplacePage() {
                         </li>
                       ))}
                     </ul>
-
-                    {/* Specs */}
                     <div className="grid grid-cols-2 gap-2 mb-5 p-4 bg-[#f8faff] rounded-xl border border-[#e8edf5]">
                       {Object.entries(product.specs).map(([key, val]) => (
                         <div key={key}>
@@ -330,7 +358,6 @@ export default function MarketplacePage() {
                         </div>
                       ))}
                     </div>
-
                     <div className="mt-auto">
                       <a
                         href="mailto:peparab@peparab.com?subject=Product Inquiry"
@@ -351,12 +378,19 @@ export default function MarketplacePage() {
             </div>
           )}
         </div>
+
+        {/* Diagonal to dark */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L1200,80 L1200,80 L0,80 Z" fill="#0a1628" />
+          </svg>
+        </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-24 bg-[#0a1628]">
+      <section className="relative py-24 bg-[#0a1628]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-5">
               Engineering Services
             </div>
@@ -372,8 +406,13 @@ export default function MarketplacePage() {
               { icon: Shield, title: "Safety Engineering", desc: "Fire & gas system design, HAZOP analysis, and SIL assessment." },
               { icon: Zap, title: "Panel Fabrication", desc: "Custom MCC, power distribution, and control panel manufacturing." },
               { icon: BarChart3, title: "Commissioning", desc: "On-site installation, testing, and handover with full documentation." },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="glass rounded-2xl p-6 border border-white/10 hover:border-[#00b4d8]/30 transition-all">
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <div
+                key={title}
+                data-reveal
+                data-delay={String(i + 1)}
+                className="glass rounded-2xl p-6 border border-white/10 hover:border-[#00b4d8]/30 transition-all"
+              >
                 <Icon className="w-8 h-8 text-[#00b4d8] mb-4" />
                 <h3 className="text-white font-bold mb-2">{title}</h3>
                 <p className="text-white/50 text-sm leading-relaxed">{desc}</p>
@@ -381,11 +420,100 @@ export default function MarketplacePage() {
             ))}
           </div>
         </div>
+
+        {/* Wave to partners */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 C300,0 900,80 1200,0 L1200,80 L0,80 Z" fill="#050e1d" />
+          </svg>
+        </div>
+      </section>
+
+      {/* ── TECHNOLOGY PARTNERS ── */}
+      <section className="relative py-28 bg-[#050e1d] overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,180,216,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,1) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#1565c0]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#7c3aed]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-20" data-reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00b4d8]/10 border border-[#00b4d8]/20 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-6">
+              <MapPin className="w-3.5 h-3.5" />
+              Platform Partners
+            </div>
+            <h2 className="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              Powered by{" "}
+              <span className="gradient-text">World Leaders</span>
+            </h2>
+            <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+              Every product in our marketplace is backed by partnerships with the world&apos;s
+              most trusted industrial technology manufacturers and certification bodies.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {techPartners.map(({ name, country, flag, role, accent, border, badge }, i) => (
+              <div
+                key={name}
+                data-reveal
+                data-delay={String(i + 1)}
+                className={`relative group rounded-2xl overflow-hidden border ${border} bg-gradient-to-br ${accent} p-8 hover:shadow-2xl hover:border-white/20 transition-all duration-500 cursor-default`}
+              >
+                <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
+
+                {/* Badge */}
+                <div className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full border text-[10px] font-bold tracking-widest uppercase mb-5 ${badgeColors[badge] ?? badgeColors.Hardware}`}>
+                  {badge}
+                </div>
+
+                {/* Country */}
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-2xl">{flag}</span>
+                  <span className="text-white/40 text-xs font-semibold tracking-wider uppercase">{country}</span>
+                </div>
+
+                {/* Name */}
+                <h3 className="text-white font-black text-2xl leading-tight mb-3 group-hover:text-[#00b4d8] transition-colors duration-300">
+                  {name}
+                </h3>
+
+                {/* Role */}
+                <p className="text-white/50 text-sm leading-relaxed">{role}</p>
+
+                {/* Active indicator */}
+                <div className="mt-6 flex items-center gap-2 pt-6 border-t border-white/10">
+                  <span className="w-2 h-2 rounded-full bg-[#00b4d8] animate-pulse" />
+                  <span className="text-white/30 text-xs font-medium">Authorized Partner</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-16 text-center" data-reveal>
+            <p className="text-white/40 text-sm">
+              4 countries · 6 technology domains · 1 integrated portfolio
+            </p>
+          </div>
+        </div>
+
+        {/* Diagonal to CTA */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 L1200,0 L1200,80 L0,80 Z" fill="#1565c0" />
+          </svg>
+        </div>
       </section>
 
       {/* CTA */}
       <section className="py-16 bg-gradient-to-r from-[#1565c0] to-[#00b4d8]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center" data-reveal>
           <h2 className="text-3xl font-black text-white mb-4">
             Need a Custom Solution?
           </h2>

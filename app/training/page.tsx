@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   ArrowRight,
   BookOpen,
@@ -14,7 +14,6 @@ import {
   BarChart3,
   Shield,
   Zap,
-  Calendar,
   MapPin,
   ChevronDown,
   ChevronUp,
@@ -125,32 +124,6 @@ const programs = [
     ],
     partners: ["Mansoura University"],
   },
-  // {
-  //   id: 5,
-  //   icon: GraduationCap,
-  //   title: "Marine Control Systems",
-  //   level: "Advanced",
-  //   duration: "20 Hours",
-  //   mode: "In-Person",
-  //   color: "from-[#0891b2] to-[#00b4d8]",
-  //   description:
-  //     "Specialized training on Bureau Veritas-certified marine alarm and monitoring systems, SOLAS regulations, and integrated bridge automation.",
-  //   modules: [
-  //     "Marine Automation & SOLAS Requirements",
-  //     "Bureau Veritas Type Approval Process",
-  //     "Marine Alarm & Monitoring System Design",
-  //     "Engine Room Monitoring",
-  //     "Bilge & Fire Detection at Sea",
-  //     "Integrated Bridge Systems",
-  //   ],
-  //   outcomes: [
-  //     "Understand SOLAS marine automation requirements",
-  //     "Configure marine alarm and monitoring panels",
-  //     "Commission engine room monitoring systems",
-  //     "Navigate Bureau Veritas approval documentation",
-  //   ],
-  //   partners: ["Delta University"],
-  // },
 ];
 
 const stats = [
@@ -160,8 +133,46 @@ const stats = [
   { icon: Star, value: "4.9", label: "Avg. Rating" },
 ];
 
+const universities = [
+  {
+    name: "Delta University for Science & Technology",
+    shortName: "Delta University",
+    location: "Gamasa, Dakahlia, Egypt",
+    flag: "🇪🇬",
+    faculty: "Faculty of Engineering",
+    programs: ["PLC & Automation", "SCADA & HMI", "Fire & Safety Systems"],
+    since: "2021",
+    accent: "from-[#1565c0]/20 to-[#00b4d8]/10",
+    border: "border-[#1565c0]/30",
+    glowColor: "group-hover:shadow-[#1565c0]/30",
+    badgeColor: "bg-[#1565c0]/20 border-[#1565c0]/30 text-[#00b4d8]",
+  },
+  {
+    name: "Mansoura University",
+    shortName: "Mansoura University",
+    location: "Mansoura, Dakahlia, Egypt",
+    flag: "🇪🇬",
+    faculty: "Faculty of Engineering",
+    programs: ["PLC & Automation", "SCADA & HMI", "Industrial Electrical Engineering"],
+    since: "2022",
+    accent: "from-[#7c3aed]/20 to-[#1565c0]/10",
+    border: "border-[#7c3aed]/30",
+    glowColor: "group-hover:shadow-[#7c3aed]/30",
+    badgeColor: "bg-[#7c3aed]/20 border-[#7c3aed]/30 text-[#9d5ff0]",
+  },
+];
+
 export default function TrainingPortalPage() {
   const [expandedId, setExpandedId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const io = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add("visible"); io.unobserve(e.target); } }),
+      { threshold: 0, rootMargin: "0px 0px -20px 0px" }
+    );
+    document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
   const [form, setForm] = useState({ name: "", email: "", program: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
 
@@ -197,7 +208,7 @@ export default function TrainingPortalPage() {
             </h1>
             <p className="text-white/60 text-lg leading-relaxed mb-10 max-w-lg">
               PEP ARAB delivers certified industrial training programs in partnership with
-              Delta University and Mansoura University — empowering Egypt's next
+              Delta University and Mansoura University — empowering Egypt&apos;s next
               generation of automation engineers.
             </p>
             <a
@@ -219,30 +230,121 @@ export default function TrainingPortalPage() {
             ))}
           </div>
         </div>
+
+        {/* Wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#050e1d" />
+          </svg>
+        </div>
       </section>
 
-      {/* University Partners Banner */}
-      <section className="bg-white py-10 border-b border-[#e8edf5]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-center gap-8">
-          <p className="text-[#0a1628]/40 text-xs tracking-widest uppercase font-semibold">
-            Academic Partners
-          </p>
-          {["Delta University for Science & Technology", "Mansoura University"].map((u) => (
-            <div
-              key={u}
-              className="flex items-center gap-3 px-6 py-3 rounded-xl bg-[#f0f4ff] border border-[#d0ddf5]"
-            >
-              <GraduationCap className="w-4 h-4 text-[#1565c0]" />
-              <span className="text-[#1565c0] font-semibold text-sm">{u}</span>
+      {/* ── UNIVERSITY PARTNERS ── */}
+      <section className="relative py-24 bg-[#050e1d] overflow-hidden">
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,180,216,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,1) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-[#1565c0]/15 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-[#7c3aed]/10 rounded-full blur-3xl pointer-events-none -translate-y-1/2" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-16" data-reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00b4d8]/10 border border-[#00b4d8]/20 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-6">
+              <GraduationCap className="w-3.5 h-3.5" />
+              Academic Alliance
             </div>
-          ))}
+            <h2 className="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              University{" "}
+              <span className="gradient-text">Partners</span>
+            </h2>
+            <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+              Forging the next generation of industrial engineers through official academic
+              partnerships with Egypt&apos;s leading engineering faculties.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {universities.map(({ name, shortName, location, flag, faculty, programs: progs, since, accent, border, glowColor, badgeColor }, i) => (
+              <div
+                key={name}
+                data-reveal
+                data-delay={String(i + 1)}
+                className={`relative group rounded-3xl overflow-hidden border ${border} bg-gradient-to-br ${accent} p-10 hover:shadow-2xl ${glowColor} transition-all duration-500 cursor-default`}
+              >
+                {/* Glow */}
+                <div className="absolute top-0 right-0 w-60 h-60 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
+
+                {/* Header */}
+                <div className="flex items-start justify-between mb-6">
+                  <div>
+                    <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r border text-[10px] font-bold tracking-widest uppercase mb-4 ${badgeColor}`}>
+                      Since {since}
+                    </div>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-3xl">{flag}</span>
+                      <span className="text-white/40 text-xs font-semibold tracking-wider uppercase">{location}</span>
+                    </div>
+                  </div>
+                  <div className="w-14 h-14 rounded-2xl bg-white/10 flex items-center justify-center flex-shrink-0">
+                    <GraduationCap className="w-7 h-7 text-white/60" />
+                  </div>
+                </div>
+
+                {/* University name */}
+                <h3 className="text-white font-black text-3xl leading-tight mb-2 group-hover:text-[#00b4d8] transition-colors duration-300">
+                  {shortName}
+                </h3>
+                <p className="text-white/40 text-sm mb-6">{faculty} · {name}</p>
+
+                {/* Programs */}
+                <div className="space-y-2 mb-6">
+                  <p className="text-white/30 text-xs font-semibold tracking-wider uppercase mb-3">
+                    <MapPin className="w-3 h-3 inline mr-1" />Delivered Programs
+                  </p>
+                  {progs.map((prog) => (
+                    <div key={prog} className="flex items-center gap-2 text-white/60 text-sm">
+                      <CheckCircle className="w-4 h-4 text-[#00b4d8] flex-shrink-0" />
+                      {prog}
+                    </div>
+                  ))}
+                </div>
+
+                {/* Active indicator */}
+                <div className="flex items-center gap-2 pt-6 border-t border-white/10">
+                  <span className="w-2 h-2 rounded-full bg-[#00b4d8] animate-pulse" />
+                  <span className="text-white/30 text-xs font-medium">Active Academic Partnership</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-12 text-center" data-reveal>
+            <p className="text-white/30 text-sm">
+              Interested in establishing an academic partnership?{" "}
+              <a href="mailto:peparab@peparab.com?subject=Academic Partnership" className="text-[#00b4d8] hover:underline">
+                Contact our training team
+              </a>
+            </p>
+          </div>
+        </div>
+
+        {/* Diagonal to light */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 L1200,0 L1200,80 L0,80 Z" fill="#f8faff" />
+          </svg>
         </div>
       </section>
 
       {/* Programs */}
-      <section id="programs" className="py-24 bg-[#f8faff]">
+      <section id="programs" className="relative py-24 bg-[#f8faff]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
               Certification Programs
             </div>
@@ -254,12 +356,14 @@ export default function TrainingPortalPage() {
           </div>
 
           <div className="space-y-4">
-            {programs.map((program) => {
+            {programs.map((program, i) => {
               const Icon = program.icon;
               const isExpanded = expandedId === program.id;
               return (
                 <div
                   key={program.id}
+                  data-reveal
+                  data-delay={String(i + 1)}
                   className="bg-white rounded-2xl border border-[#e8edf5] overflow-hidden hover:shadow-lg hover:shadow-[#1565c0]/10 transition-all duration-300"
                 >
                   <button
@@ -341,12 +445,19 @@ export default function TrainingPortalPage() {
             })}
           </div>
         </div>
+
+        {/* Diagonal to dark */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L1200,80 L1200,80 L0,80 Z" fill="#0a1628" />
+          </svg>
+        </div>
       </section>
 
       {/* Registration Form */}
       <section id="register" className="py-24 bg-[#0a1628]">
         <div className="max-w-3xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
+          <div className="text-center mb-12" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-white/10 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-5">
               Registration
             </div>
@@ -360,7 +471,7 @@ export default function TrainingPortalPage() {
           </div>
 
           {submitted ? (
-            <div className="glass rounded-2xl p-12 border border-white/10 text-center">
+            <div className="glass rounded-2xl p-12 border border-white/10 text-center" data-reveal>
               <CheckCircle className="w-16 h-16 text-[#00b4d8] mx-auto mb-4" />
               <h3 className="text-white text-2xl font-bold mb-2">Registration Received!</h3>
               <p className="text-white/60">
@@ -371,6 +482,7 @@ export default function TrainingPortalPage() {
             <form
               onSubmit={handleSubmit}
               className="glass rounded-2xl p-8 border border-white/10 space-y-5"
+              data-reveal
             >
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>

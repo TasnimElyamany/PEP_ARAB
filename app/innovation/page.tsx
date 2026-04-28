@@ -6,13 +6,12 @@ import {
   Lightbulb,
   Rocket,
   Shield,
-  Zap,
   BarChart3,
   Network,
-  Layers,
   CheckCircle,
   Target,
   TrendingUp,
+  MapPin,
 } from "lucide-react";
 
 const pillars = [
@@ -72,6 +71,22 @@ const roadmap = [
   { year: "2025+", milestone: "Expanding IoT-integrated SCADA and AI-driven predictive maintenance" },
 ];
 
+const partners = [
+  { name: "Kontron", country: "Germany", flag: "🇩🇪", role: "Industrial Computing Platforms", type: "Technology" },
+  { name: "Wilke Technology", country: "Germany", flag: "🇩🇪", role: "Embedded Systems & BASIC Tiger", type: "Technology" },
+  { name: "Sielcosistemi", country: "Italy", flag: "🇮🇹", role: "Winlog SCADA Platform", type: "Software" },
+  { name: "Diamondsystems", country: "USA", flag: "🇺🇸", role: "Industrial Single-Board Computers", type: "Hardware" },
+  { name: "Fastwel", country: "Global", flag: "🌐", role: "Rugged Embedded Computing", type: "Hardware" },
+  { name: "Bureau Veritas", country: "Global", flag: "🌐", role: "Marine Type Approval & Certification", type: "Certification" },
+];
+
+const typeColors: Record<string, string> = {
+  Technology: "from-[#1565c0]/20 to-[#00b4d8]/10 border-[#1565c0]/30 text-[#00b4d8]",
+  Software:   "from-[#7c3aed]/20 to-[#1565c0]/10 border-[#7c3aed]/30 text-[#9d5ff0]",
+  Hardware:   "from-[#059669]/20 to-[#00b4d8]/10 border-[#059669]/30 text-[#34d399]",
+  Certification: "from-[#d97706]/20 to-[#fbbf24]/10 border-[#d97706]/30 text-[#fbbf24]",
+};
+
 export default function InnovationHubPage() {
   return (
     <div className="overflow-hidden pt-16">
@@ -98,9 +113,9 @@ export default function InnovationHubPage() {
             Industrial Control
           </h1>
           <p className="text-white/60 text-xl max-w-3xl leading-relaxed mb-10">
-            At PEP ARAB, innovation is not a department — it's our founding principle.
+            At PEP ARAB, innovation is not a department — it&apos;s our founding principle.
             We design proprietary control systems that bridge Egyptian manufacturing
-            excellence with the world's most demanding industrial standards.
+            excellence with the world&apos;s most demanding industrial standards.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -111,12 +126,19 @@ export default function InnovationHubPage() {
             </Link>
           </div>
         </div>
+
+        {/* Wave down */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#f8faff" />
+          </svg>
+        </div>
       </section>
 
       {/* Three Pillars */}
-      <section className="py-24 bg-[#f8faff]">
+      <section className="relative py-24 bg-[#f8faff]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
               Strategic Pillars
             </div>
@@ -124,15 +146,17 @@ export default function InnovationHubPage() {
               Our Innovation Strategy
             </h2>
             <p className="text-[#0a1628]/60 max-w-2xl mx-auto">
-              Three interconnected pillars that drive PEP ARAB's vision to become the
-              Arab world's leading control system provider.
+              Three interconnected pillars that drive PEP ARAB&apos;s vision to become the
+              Arab world&apos;s leading control system provider.
             </p>
           </div>
 
           <div className="grid lg:grid-cols-3 gap-8">
-            {pillars.map(({ icon: Icon, title, description, color }) => (
+            {pillars.map(({ icon: Icon, title, description, color }, i) => (
               <div
                 key={title}
+                data-reveal
+                data-delay={String(i + 1)}
                 className="bg-white rounded-2xl p-8 border border-[#e8edf5] hover:shadow-xl hover:shadow-[#1565c0]/10 transition-all duration-300 hover:-translate-y-1 group"
               >
                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
@@ -144,13 +168,20 @@ export default function InnovationHubPage() {
             ))}
           </div>
         </div>
+
+        {/* Diagonal to dark */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L1200,80 L1200,80 L0,80 Z" fill="#0a1628" />
+          </svg>
+        </div>
       </section>
 
       {/* Vision & Mission */}
-      <section className="py-24 bg-[#0a1628]">
+      <section className="relative py-24 bg-[#0a1628]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <div className="grid lg:grid-cols-2 gap-12">
-            <div className="glass rounded-2xl p-10 border border-white/10">
+            <div className="glass rounded-2xl p-10 border border-white/10" data-reveal data-delay="1">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-[#1565c0]/30 flex items-center justify-center">
                   <Target className="w-5 h-5 text-[#00b4d8]" />
@@ -160,7 +191,7 @@ export default function InnovationHubPage() {
               <p className="text-white/60 text-lg leading-relaxed mb-6">
                 To establish PEP ARAB as the{" "}
                 <span className="text-[#00b4d8] font-semibold">
-                  "First Arab Leading-Edge Supplier of Control Systems"
+                  &quot;First Arab Leading-Edge Supplier of Control Systems&quot;
                 </span>{" "}
                 — achieving top market satisfaction through partnership cooperation with
                 international clients across the Arab region and beyond.
@@ -179,7 +210,7 @@ export default function InnovationHubPage() {
               </div>
             </div>
 
-            <div className="glass rounded-2xl p-10 border border-white/10">
+            <div className="glass rounded-2xl p-10 border border-white/10" data-reveal data-delay="2">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 rounded-xl bg-[#00b4d8]/20 flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-[#00b4d8]" />
@@ -189,7 +220,7 @@ export default function InnovationHubPage() {
               <p className="text-white/60 text-lg leading-relaxed mb-6">
                 To function as a{" "}
                 <span className="text-[#00b4d8] font-semibold">
-                  "product platform provider with solution and services capabilities"
+                  &quot;product platform provider with solution and services capabilities&quot;
                 </span>{" "}
                 — designing and manufacturing control solutions using proprietary system
                 products and technological expertise for multiple market segments.
@@ -215,9 +246,11 @@ export default function InnovationHubPage() {
               { label: "From Egypt with Global Standard", icon: Globe2 },
               { label: "Doing It Right, Just Once", icon: CheckCircle },
               { label: "When Failure Is Not An Option", icon: Shield },
-            ].map(({ label, icon: Icon }) => (
+            ].map(({ label, icon: Icon }, i) => (
               <div
                 key={label}
+                data-reveal
+                data-delay={String(i + 3)}
                 className="text-center p-6 rounded-2xl bg-gradient-to-br from-[#1565c0]/20 to-[#00b4d8]/10 border border-white/10"
               >
                 <Icon className="w-8 h-8 text-[#00b4d8] mx-auto mb-3" />
@@ -226,12 +259,19 @@ export default function InnovationHubPage() {
             ))}
           </div>
         </div>
+
+        {/* Wave to white */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 C300,0 900,80 1200,0 L1200,80 L0,80 Z" fill="white" />
+          </svg>
+        </div>
       </section>
 
       {/* Technology Stack */}
-      <section className="py-24 bg-white">
+      <section className="relative py-24 bg-white">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
               Technology
             </div>
@@ -245,8 +285,13 @@ export default function InnovationHubPage() {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {techStack.map(({ category, icon: Icon, items }) => (
-              <div key={category} className="bg-[#f8faff] rounded-2xl p-6 border border-[#e8edf5]">
+            {techStack.map(({ category, icon: Icon, items }, i) => (
+              <div
+                key={category}
+                data-reveal
+                data-delay={String(i + 1)}
+                className="bg-[#f8faff] rounded-2xl p-6 border border-[#e8edf5] hover:shadow-lg hover:border-[#1565c0]/20 transition-all duration-300"
+              >
                 <div className="flex items-center gap-3 mb-5">
                   <div className="w-9 h-9 rounded-lg bg-[#1565c0]/10 flex items-center justify-center">
                     <Icon className="w-4 h-4 text-[#1565c0]" />
@@ -265,12 +310,19 @@ export default function InnovationHubPage() {
             ))}
           </div>
         </div>
+
+        {/* Diagonal to light */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 L1200,0 L1200,80 L0,80 Z" fill="#f8faff" />
+          </svg>
+        </div>
       </section>
 
       {/* Timeline */}
-      <section className="py-24 bg-[#f8faff]">
+      <section className="relative py-24 bg-[#f8faff]">
         <div className="max-w-4xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
               Timeline
             </div>
@@ -282,8 +334,8 @@ export default function InnovationHubPage() {
           <div className="relative">
             <div className="absolute left-8 top-0 bottom-0 w-px bg-gradient-to-b from-[#1565c0] via-[#00b4d8] to-transparent" />
             <div className="space-y-8">
-              {roadmap.map(({ year, milestone }) => (
-                <div key={year} className="flex gap-6 items-start group">
+              {roadmap.map(({ year, milestone }, i) => (
+                <div key={year} data-reveal data-delay={String(i + 1)} className="flex gap-6 items-start group">
                   <div className="relative flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-[#1565c0] to-[#00b4d8] flex items-center justify-center shadow-lg shadow-[#1565c0]/20 group-hover:scale-110 transition-transform">
                     <span className="text-white font-black text-xs">{year}</span>
                   </div>
@@ -295,31 +347,102 @@ export default function InnovationHubPage() {
             </div>
           </div>
         </div>
+
+        {/* Diagonal to partners dark */}
+        <div className="absolute bottom-0 left-0 right-0 h-20 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L1200,80 L1200,80 L0,80 Z" fill="#050e1d" />
+          </svg>
+        </div>
       </section>
 
-      {/* Partners */}
-      <section className="py-16 bg-[#0a1628]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 text-center">
-          <p className="text-white/40 text-xs tracking-widest uppercase font-semibold mb-8">
-            Global Technology Partners
-          </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            {[
-              { name: "Kontron", country: "Germany" },
-              { name: "Wilke Technology", country: "Germany" },
-              { name: "Sielcosistemi", country: "Italy" },
-              { name: "Diamondsystems", country: "USA" },
-              { name: "Fastwel", country: "Partner" },
-              { name: "Bureau Veritas", country: "Certified" },
-            ].map(({ name, country }) => (
-              <div
-                key={name}
-                className="px-6 py-3 rounded-xl bg-white/5 border border-white/10 text-center"
-              >
-                <div className="text-white font-semibold text-sm">{name}</div>
-                <div className="text-white/30 text-[10px] mt-0.5">{country}</div>
-              </div>
-            ))}
+      {/* ── GLOBAL PARTNERS ── */}
+      <section className="relative py-28 bg-[#050e1d] overflow-hidden">
+        {/* Background grid */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,180,216,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,1) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        {/* Ambient glow blobs */}
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#1565c0]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-[#00b4d8]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          {/* Header */}
+          <div className="text-center mb-20" data-reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00b4d8]/10 border border-[#00b4d8]/20 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-6">
+              <MapPin className="w-3.5 h-3.5" />
+              Global Technology Network
+            </div>
+            <h2 className="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              World-Class{" "}
+              <span className="gradient-text">Strategic Partners</span>
+            </h2>
+            <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+              PEP ARAB&apos;s global reach is powered by exclusive alliances with the world&apos;s
+              foremost industrial technology companies — bringing their expertise directly
+              to Arab region industries.
+            </p>
+          </div>
+
+          {/* Partner cards */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {partners.map(({ name, country, flag, role, type }, i) => {
+              const colorClass = typeColors[type] ?? typeColors.Technology;
+              return (
+                <div
+                  key={name}
+                  data-reveal
+                  data-delay={String(i + 1)}
+                  className="relative group rounded-2xl overflow-hidden border border-white/8 bg-gradient-to-br from-white/[0.06] to-white/[0.02] p-8 hover:border-white/20 hover:shadow-2xl hover:shadow-[#1455a4]/20 transition-all duration-500 cursor-default"
+                >
+                  {/* Glow on hover */}
+                  <div className="absolute top-0 right-0 w-40 h-40 bg-[#1565c0]/20 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
+
+                  {/* Type badge */}
+                  <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gradient-to-r border text-[10px] font-bold tracking-widest uppercase mb-5 ${colorClass}`}>
+                    {type}
+                  </div>
+
+                  {/* Country */}
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="text-xl">{flag}</span>
+                    <span className="text-white/40 text-xs font-medium">{country}</span>
+                  </div>
+
+                  {/* Name */}
+                  <h3 className="text-white font-black text-2xl leading-tight mb-3 group-hover:text-[#00b4d8] transition-colors duration-300">
+                    {name}
+                  </h3>
+
+                  {/* Role */}
+                  <p className="text-white/50 text-sm leading-relaxed">{role}</p>
+
+                  {/* Active indicator */}
+                  <div className="mt-6 flex items-center gap-2 pt-6 border-t border-white/8">
+                    <span className="w-2 h-2 rounded-full bg-[#00b4d8] animate-pulse" />
+                    <span className="text-white/30 text-xs font-medium">Active Partnership</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom CTA strip */}
+          <div className="mt-16 text-center" data-reveal>
+            <p className="text-white/40 text-sm mb-6">
+              Interested in becoming a technology or distribution partner?
+            </p>
+            <a
+              href="mailto:peparab@peparab.com?subject=Partnership Inquiry"
+              className="inline-flex items-center gap-2 px-7 py-3.5 rounded-xl border border-white/20 text-white/80 text-sm font-semibold hover:border-[#00b4d8]/50 hover:text-white hover:bg-white/5 transition-all duration-200"
+            >
+              Explore Partnership Opportunities <ArrowRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
       </section>

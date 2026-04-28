@@ -1,4 +1,4 @@
-import { ArrowRight, Globe2, Anchor, Flame, Leaf, Zap, Building2, CheckCircle, Quote } from "lucide-react";
+import { ArrowRight, Globe2, Anchor, Flame, Leaf, Zap, Building2, CheckCircle, Quote, MapPin } from "lucide-react";
 
 const sectors = [
   { icon: Flame, label: "Oil & Gas", color: "text-orange-400", bg: "bg-orange-400/10" },
@@ -109,12 +109,12 @@ const projects = [
 ];
 
 const techPartners = [
-  { name: "Kontron", region: "Germany", role: "Industrial Computing" },
-  { name: "Wilke Technology", region: "Germany", role: "Embedded Systems" },
-  { name: "Sielcosistemi", region: "Italy", role: "SCADA Software (Winlog)" },
-  { name: "Diamondsystems", region: "USA", role: "Industrial SBCs" },
-  { name: "Fastwel", region: "Russia/Global", role: "Rugged Computing" },
-  { name: "Bureau Veritas", region: "Global", role: "Marine Certification" },
+  { name: "Kontron", region: "Germany", flag: "🇩🇪", role: "Industrial Computing Platforms", accent: "from-[#1565c0]/20 to-[#1565c0]/5", border: "border-[#1565c0]/30", glow: "group-hover:shadow-[#1565c0]/30" },
+  { name: "Wilke Technology", region: "Germany", flag: "🇩🇪", role: "Embedded Systems & BASIC Tiger", accent: "from-[#1565c0]/20 to-[#1565c0]/5", border: "border-[#1565c0]/30", glow: "group-hover:shadow-[#1565c0]/30" },
+  { name: "Sielcosistemi", region: "Italy", flag: "🇮🇹", role: "Winlog SCADA Software Platform", accent: "from-[#7c3aed]/20 to-[#7c3aed]/5", border: "border-[#7c3aed]/30", glow: "group-hover:shadow-[#7c3aed]/30" },
+  { name: "Diamondsystems", region: "USA", flag: "🇺🇸", role: "Industrial Single-Board Computers", accent: "from-[#059669]/20 to-[#059669]/5", border: "border-[#059669]/30", glow: "group-hover:shadow-[#059669]/30" },
+  { name: "Fastwel", region: "Global", flag: "🌐", role: "Rugged Embedded Computing", accent: "from-[#00b4d8]/20 to-[#00b4d8]/5", border: "border-[#00b4d8]/30", glow: "group-hover:shadow-[#00b4d8]/30" },
+  { name: "Bureau Veritas", region: "Global", flag: "🌐", role: "Marine Type Approval & Certification", accent: "from-[#d97706]/20 to-[#d97706]/5", border: "border-[#d97706]/30", glow: "group-hover:shadow-[#d97706]/30" },
 ];
 
 const testimonial = {
@@ -150,11 +150,10 @@ export default function ClientsPage() {
             Across the Region
           </h1>
           <p className="text-white/60 text-xl max-w-2xl leading-relaxed mb-12">
-            From Algeria's largest gas facility to Egypt's national maritime authority —
-            PEP ARAB's control systems power the Arab world's most critical infrastructure.
+            From Algeria&apos;s largest gas facility to Egypt&apos;s national maritime authority —
+            PEP ARAB&apos;s control systems power the Arab world&apos;s most critical infrastructure.
           </p>
 
-          {/* Sector pills */}
           <div className="flex flex-wrap gap-3">
             {sectors.map(({ icon: Icon, label, color, bg }) => (
               <div
@@ -167,12 +166,19 @@ export default function ClientsPage() {
             ))}
           </div>
         </div>
+
+        {/* Wave */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,40 C200,80 400,0 600,40 C800,80 1000,0 1200,40 L1200,80 L0,80 Z" fill="#f8faff" />
+          </svg>
+        </div>
       </section>
 
       {/* Projects */}
-      <section className="py-24 bg-[#f8faff]">
+      <section className="relative py-24 bg-[#f8faff]">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-16" data-reveal>
             <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
               Project References
             </div>
@@ -180,7 +186,7 @@ export default function ClientsPage() {
               Our Project Portfolio
             </h2>
             <p className="text-[#0a1628]/60 max-w-xl mx-auto">
-              A track record spanning oil & gas, maritime, energy, and agriculture across
+              A track record spanning oil &amp; gas, maritime, energy, and agriculture across
               multiple countries in the Arab region and beyond.
             </p>
           </div>
@@ -189,6 +195,7 @@ export default function ClientsPage() {
           {projects.filter((p) => p.highlight).map((p) => (
             <div
               key={p.id}
+              data-reveal
               className="mb-8 rounded-3xl overflow-hidden bg-gradient-to-br from-[#0a1628] to-[#1565c0] border border-white/10"
             >
               <div className="grid lg:grid-cols-3 gap-0">
@@ -229,9 +236,11 @@ export default function ClientsPage() {
 
           {/* Other projects */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.filter((p) => !p.highlight).map((p) => (
+            {projects.filter((p) => !p.highlight).map((p, i) => (
               <div
                 key={p.id}
+                data-reveal
+                data-delay={String(i + 1)}
                 className="bg-white rounded-2xl border border-[#e8edf5] overflow-hidden hover:shadow-xl hover:shadow-[#1565c0]/10 hover:-translate-y-1 transition-all duration-300 flex flex-col"
               >
                 <div className="p-6 flex-1">
@@ -253,9 +262,7 @@ export default function ClientsPage() {
                       {p.status}
                     </span>
                   </div>
-
                   <p className="text-[#0a1628]/55 text-sm leading-relaxed mb-4">{p.description}</p>
-
                   <ul className="space-y-1.5">
                     {p.deliverables.map((d) => (
                       <li key={d} className="flex items-center gap-2 text-[#0a1628]/50 text-xs">
@@ -265,70 +272,127 @@ export default function ClientsPage() {
                     ))}
                   </ul>
                 </div>
-
-                <div className="px-6 py-4 bg-[#f8faff] border-t border-[#e8edf5] flex items-center justify-between">
+                <div className="px-6 py-4 bg-[#f8faff] border-t border-[#e8edf5]">
                   <span className="text-[#0a1628]/50 text-xs">{p.scale}</span>
                 </div>
               </div>
             ))}
           </div>
         </div>
+
+        {/* Diagonal to dark */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,0 L1200,80 L1200,80 L0,80 Z" fill="#0a1628" />
+          </svg>
+        </div>
       </section>
 
       {/* Testimonial */}
-      <section className="py-20 bg-[#0a1628]">
-        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
+      <section className="relative py-24 bg-[#0a1628]">
+        <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center" data-reveal>
           <Quote className="w-12 h-12 text-[#1565c0] mx-auto mb-8" />
           <blockquote className="text-2xl lg:text-3xl font-semibold text-white leading-relaxed mb-8">
-            "{testimonial.quote}"
+            &quot;{testimonial.quote}&quot;
           </blockquote>
           <div className="text-[#00b4d8] font-bold">{testimonial.author}</div>
           <div className="text-white/40 text-sm mt-1">{testimonial.company}</div>
         </div>
+
+        {/* Wave to partners */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 C300,0 900,80 1200,0 L1200,80 L0,80 Z" fill="#050e1d" />
+          </svg>
+        </div>
       </section>
 
-      {/* Technology Partners */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <div className="inline-block px-4 py-1.5 rounded-full bg-[#1565c0]/10 text-[#1565c0] text-xs font-semibold tracking-widest uppercase mb-5">
+      {/* ── TECHNOLOGY PARTNERS ── */}
+      <section className="relative py-28 bg-[#050e1d] overflow-hidden">
+        {/* Grid bg */}
+        <div
+          className="absolute inset-0 opacity-[0.03]"
+          style={{
+            backgroundImage:
+              "linear-gradient(rgba(0,180,216,1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,180,216,1) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+        <div className="absolute top-1/3 left-1/4 w-96 h-96 bg-[#1565c0]/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-[#00b4d8]/10 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="text-center mb-20" data-reveal>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#00b4d8]/10 border border-[#00b4d8]/20 text-[#00b4d8] text-xs font-semibold tracking-widest uppercase mb-6">
+              <MapPin className="w-3.5 h-3.5" />
               Global Network
             </div>
-            <h2 className="text-4xl font-black text-[#0a1628] mb-4">
-              Technology Partners
+            <h2 className="text-5xl lg:text-6xl font-black text-white mb-6 leading-tight">
+              Technology{" "}
+              <span className="gradient-text">Partner Ecosystem</span>
             </h2>
-            <p className="text-[#0a1628]/60 max-w-xl mx-auto">
-              Strategic alliances with world-class technology companies enabling PEP ARAB
-              to deliver cutting-edge solutions across every sector.
+            <p className="text-white/50 text-lg max-w-2xl mx-auto leading-relaxed">
+              Strategic alliances with the world&apos;s foremost industrial technology companies —
+              enabling PEP ARAB to deliver cutting-edge solutions across every sector and geography.
             </p>
           </div>
 
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {techPartners.map(({ name, region, role }) => (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {techPartners.map(({ name, region, flag, role, accent, border, glow }, i) => (
               <div
                 key={name}
-                className="p-6 rounded-2xl bg-[#f8faff] border border-[#e8edf5] hover:border-[#1565c0]/30 hover:shadow-lg hover:shadow-[#1565c0]/10 transition-all duration-300 group"
+                data-reveal
+                data-delay={String(i + 1)}
+                className={`relative group rounded-2xl overflow-hidden border ${border} bg-gradient-to-br ${accent} p-8 hover:shadow-2xl ${glow} transition-all duration-500 cursor-default`}
               >
-                <div className="flex items-start justify-between mb-3">
-                  <h3 className="text-[#0a1628] font-bold group-hover:text-[#1565c0] transition-colors">{name}</h3>
-                  <span className="text-[#0a1628]/40 text-xs">{region}</span>
+                {/* Glow blob */}
+                <div className="absolute top-0 right-0 w-40 h-40 bg-white/5 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 -translate-y-1/2 translate-x-1/2" />
+
+                {/* Country */}
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-2xl">{flag}</span>
+                  <span className="text-white/40 text-xs font-semibold tracking-wider uppercase">{region}</span>
                 </div>
-                <p className="text-[#0a1628]/55 text-sm">{role}</p>
+
+                {/* Name */}
+                <h3 className="text-white font-black text-2xl leading-tight mb-3 group-hover:text-[#00b4d8] transition-colors duration-300">
+                  {name}
+                </h3>
+
+                {/* Role */}
+                <p className="text-white/50 text-sm leading-relaxed">{role}</p>
+
+                {/* Active indicator */}
+                <div className="mt-6 flex items-center gap-2 pt-6 border-t border-white/10">
+                  <span className="w-2 h-2 rounded-full bg-[#00b4d8] animate-pulse" />
+                  <span className="text-white/30 text-xs font-medium">Verified Partner</span>
+                </div>
               </div>
             ))}
           </div>
+
+          <div className="mt-16 text-center" data-reveal>
+            <p className="text-white/40 text-sm mb-6">6 world-class technology partners · 4 continents · 1 integrated ecosystem</p>
+          </div>
+        </div>
+
+        {/* Diagonal to CTA */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 overflow-hidden">
+          <svg viewBox="0 0 1200 80" preserveAspectRatio="none" className="w-full h-full">
+            <path d="M0,80 L1200,0 L1200,80 L0,80 Z" fill="#0a1628" />
+          </svg>
         </div>
       </section>
 
       {/* CTA */}
       <section className="py-16 bg-gradient-to-r from-[#0a1628] via-[#1565c0] to-[#00b4d8]">
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8" data-reveal>
           <div>
             <h3 className="text-3xl font-black text-white mb-2">
               Join Our Client Portfolio
             </h3>
             <p className="text-white/70">
-              Let PEP ARAB's engineering team solve your toughest control challenges.
+              Let PEP ARAB&apos;s engineering team solve your toughest control challenges.
             </p>
           </div>
           <a
