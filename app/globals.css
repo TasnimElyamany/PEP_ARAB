@@ -4,120 +4,139 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
 
-  /* PEP ARAB Brand Colors */
-  --color-navy-950: #020b18;
-  --color-navy-900: #0a1628;
-  --color-navy-800: #0d2040;
-  --color-navy-700: #1a3560;
-  --color-navy-600: #1e4080;
-  --color-blue-600: #1565c0;
-  --color-blue-500: #1976d2;
-  --color-blue-400: #42a5f5;
-  --color-blue-300: #90caf9;
-  --color-accent: #00b4d8;
-  --color-accent-light: #48cae4;
-  --color-gold: #ffb300;
-  --color-gold-light: #ffd54f;
+  --color-navy:   #050e1d;
+  --color-blue:   #1455a4;
+  --color-cyan:   #00b4d8;
+  --color-gold:   #e8a000;
 }
 
 :root {
   --background: #ffffff;
-  --foreground: #0a1628;
+  --foreground: #050e1d;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans, Arial, Helvetica, sans-serif);
+  font-family: var(--font-geist-sans, system-ui, sans-serif);
+  -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
 }
 
-/* Gradient text utility */
-.gradient-text {
-  background: linear-gradient(135deg, #00b4d8, #1565c0);
+/* ── Utilities ── */
+.grad-text {
+  background: linear-gradient(90deg, #60b8ff 0%, #00b4d8 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.gradient-text-gold {
-  background: linear-gradient(135deg, #ffb300, #ffd54f);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Glass card */
 .glass {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
-/* Noise texture overlay */
-.noise::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #050e1d; }
+::-webkit-scrollbar-thumb { background: #1455a4; border-radius: 99px; }
+
+/* ── Subtle grid bg ── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(20,85,164,0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(20,85,164,0.08) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 
-/* Animated gradient background */
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ── Glow ring on card hover ── */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
 }
+.spin-slow { animation: spin-slow 8s linear infinite; }
 
-.animated-gradient {
-  background: linear-gradient(-45deg, #020b18, #0a1628, #1565c0, #00b4d8, #0d2040);
-  background-size: 400% 400%;
-  animation: gradientShift 12s ease infinite;
-}
-
-/* Section fade-in */
+/* ── Fade-up ── */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.fade-up { animation: fadeUp 0.65s ease both; }
+
+/* ── Sparkle CTA button ── */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-160%) skewX(-15deg); }
+  100% { transform: translateX(320%) skewX(-15deg); }
+}
+@keyframes sparkle-pop {
+  0%, 100% { opacity: 0; transform: scale(0) rotate(0deg); }
+  50%       { opacity: 1; transform: scale(1.1) rotate(180deg); }
+}
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% 50%; }
+  50%       { background-position: 100% 50%; }
+}
+@keyframes btn-glow-pulse {
+  0%, 100% { box-shadow: 0 0 18px 2px rgba(20,85,164,0.55), 0 6px 28px rgba(0,180,216,0.28); }
+  50%       { box-shadow: 0 0 34px 6px rgba(0,180,216,0.65), 0 6px 36px rgba(20,85,164,0.35); }
+}
+.btn-sparkle {
+  background: linear-gradient(135deg, #1158b0, #00b4d8, #0e7fd4, #1455a4);
+  background-size: 300% 300%;
+  animation: gradient-shift 4s ease infinite, btn-glow-pulse 2.8s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+.btn-sparkle::before {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0; width: 45%;
+  background: linear-gradient(105deg, transparent, rgba(255,255,255,0.26), transparent);
+  animation: shimmer-sweep 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+.sparkle-dot {
+  position: absolute;
+  pointer-events: none;
+  line-height: 1;
+  animation: sparkle-pop var(--sp-dur, 2.2s) ease-in-out infinite;
+  animation-delay: var(--sp-delay, 0s);
 }
 
-.fade-up {
-  animation: fadeUp 0.7s ease forwards;
+/* ── SCADA card 3-D idle tilt ── */
+@keyframes card-3d-idle {
+  0%   { transform: perspective(900px) rotateX(3deg)   rotateY(-7deg)  rotateZ(-0.4deg); }
+  25%  { transform: perspective(900px) rotateX(-1.5deg) rotateY(5deg)  rotateZ(0.3deg);  }
+  50%  { transform: perspective(900px) rotateX(4.5deg)  rotateY(-2deg) rotateZ(-0.6deg); }
+  75%  { transform: perspective(900px) rotateX(-2deg)   rotateY(8deg)  rotateZ(0.4deg);  }
+  100% { transform: perspective(900px) rotateX(3deg)   rotateY(-7deg)  rotateZ(-0.4deg); }
 }
 
-/* Custom scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #0a1628; }
-::-webkit-scrollbar-thumb { background: #1565c0; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #00b4d8; }
-
-/* Glow pulse */
-@keyframes glowPulse {
-  0%, 100% { box-shadow: 0 0 20px rgba(0, 180, 216, 0.3); }
-  50% { box-shadow: 0 0 40px rgba(0, 180, 216, 0.6); }
+/* ── Scroll reveal ── */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.75s cubic-bezier(.23,1,.32,1), transform 0.75s cubic-bezier(.23,1,.32,1);
 }
-
-.glow-pulse {
-  animation: glowPulse 3s ease-in-out infinite;
+[data-reveal].visible {
+  opacity: 1;
+  transform: translateY(0);
 }
+[data-reveal][data-delay="1"] { transition-delay: 0.12s; }
+[data-reveal][data-delay="2"] { transition-delay: 0.22s; }
+[data-reveal][data-delay="3"] { transition-delay: 0.34s; }
+[data-reveal][data-delay="4"] { transition-delay: 0.46s; }
+[data-reveal][data-delay="5"] { transition-delay: 0.58s; }
+[data-reveal][data-delay="6"] { transition-delay: 0.70s; }
 
-/* Counter animation */
-@keyframes countUp {
-  from { opacity: 0; transform: scale(0.8); }
-  to { opacity: 1; transform: scale(1); }
+/* ── Submarine decoration ── */
+@keyframes submarine-float {
+  0%, 100% { transform: translateY(0px)   rotate(-4deg); }
+  50%       { transform: translateY(-18px) rotate(-2deg); }
 }
+.submarine-float { animation: submarine-float 9s ease-in-out infinite; }

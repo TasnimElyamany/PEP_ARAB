@@ -126,7 +126,7 @@ const testimonial = {
 
 export default function ClientsPage() {
   return (
-    <div className="overflow-hidden pt-18">
+    <div className="overflow-hidden pt-16">
       {/* Hero */}
       <section className="relative bg-[#0a1628] py-28 overflow-hidden">
         <div
