@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Mail, Phone, MapPin, Zap, Globe, ArrowRight } from "lucide-react";
+import Image from "next/image";
+import { Mail, Phone, MapPin, Globe, ArrowRight } from "lucide-react";
 
 const footerLinks = {
   Company: [
@@ -50,16 +51,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#1565c0] to-[#00b4d8] flex items-center justify-center">
-                <Zap className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex flex-col leading-none">
-                <span className="text-white font-bold text-lg">PEP ARAB</span>
-                <span className="text-[#00b4d8] text-[10px] tracking-[0.2em] uppercase font-medium">
-                  Control Systems
-                </span>
-              </div>
+            <Link href="/" className="inline-block mb-6">
+              <Image
+                src="/pep_logo.svg"
+                alt="PEP ARAB Logo"
+                width={160}
+                height={46}
+                className="h-11 w-auto object-contain rounded-md opacity-90 hover:opacity-100 transition-opacity duration-200"
+              />
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6 max-w-xs">
               Egypt's premier automation and control technology provider, delivering
